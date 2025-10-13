@@ -20,7 +20,6 @@ rm /etc/nginx/sites-enabled/default
 
 nano /etc/nginx/sites-available/reverse_proxy
 
-```bash
 # Reverse Proxy
 upstream lindon_backend {
     server 10.89.3.4:80;   # IP Lindon (web statis)
@@ -57,11 +56,7 @@ server {
     }
 }
 
-```
-
 ln -s /etc/nginx/sites-available/reverse_proxy /etc/nginx/sites-enabled
 
-curl http://www.k51.com/static/
 
-curl http://www.k51.com/app/
 
