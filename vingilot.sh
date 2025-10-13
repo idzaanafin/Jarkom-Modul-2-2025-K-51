@@ -6,7 +6,9 @@ iface eth0 inet static
     up echo nameserver 192.168.122.1 > /etc/resolv.conf
 
 # NO 10
-apt update && apt install php-fpm -y
+# rewrite NO 10 use nginx and php-fpm
+apt update && apt install nginx -y
+apt update && apt install php8.4-fpm -y
 
 nano /var/www/html/index.php
 # <?php
@@ -18,17 +20,21 @@ nano /var/www/html/about.php
 # echo "about page";
 # ?>
 
-a2enmod rewrite
-
-nano /var/www/html/.htaccess
-# RewriteEngine On
-# RewriteCond %{REQUEST_FILENAME} !-d
-# RewriteRule ^([^\.]+)$ $1.php [NC,L]
-
-nano /etc/apache2/sites-available/000-default.conf
-# <Directory /var/www/html>
-#     Options +FollowSymLinks -Multiviews
-#     AllowOverride All
-# </Directory>
-
-service apache2 restart
+# konfigurasi nginx agar tidak pakai .php di url
+nano /etc/nginx/sites-available/default
+# server {
+#       listen 80 default_server;
+#
+#       root /var/www/html;
+#       index index.php;
+#       server_name app.k10.com;
+#       rewrite ^/about$ /about.php last;
+#       location / {
+#               try_files $uri $uri/ /index.php?$query_string;
+#       }
+#       location ~ \.php$ {
+#               include snippets/fastcgi-php.conf;
+#               fastcgi_pass unix:/var/run/php/php8.4-fpm.sock;
+#       }
+# } 
+service nginx restart

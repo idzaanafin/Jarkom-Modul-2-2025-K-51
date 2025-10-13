@@ -6,8 +6,9 @@ iface eth0 inet static
     up echo nameserver 192.168.122.1 > /etc/resolv.conf
 
 # NO 9
-apt install apache2 -y
+# rewrite use nginx
+apt update && apt install nginx -y
 mkdir /var/www/html/annals/
 echo "halo dunia" > /var/www/html/annals/tes.txt
-service apache2 restart
+service nginx restart
 
