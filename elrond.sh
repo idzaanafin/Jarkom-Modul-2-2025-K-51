@@ -11,3 +11,9 @@ nameserver 10.89.3.2
 nameserver 10.89.3.3
 nameserver 192.168.122.1
 EOF
+
+# NO 11
+
+curl http://www.k51.com/static/
+
+curl http://www.k51.com/app/
