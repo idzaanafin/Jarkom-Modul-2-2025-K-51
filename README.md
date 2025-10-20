@@ -155,6 +155,14 @@ zone "k51.com" {
     file "/etc/bind/k51.com";
 };
 
+zone "3.89.10.in-addr.arpa" {
+	type master;
+    notify yes;
+    also-notify { 10.89.3.3; };
+    allow-transfer { 10.89.3.3; };
+    file "/etc/bind/3.89.10.in-addr.arpa";
+};
+
 nano /etc/bind/k51.com
 $TTL    604800          ; Waktu cache default (detik)
 @       IN      SOA     ns1.k51.com. root.k51.com. (
@@ -277,14 +285,80 @@ nameserver 192.168.122.1
 apt update && apt install nginx -y
 mkdir /var/www/html/annals/
 echo "halo dunia" > /var/www/html/annals/tes.txt
+
+chown -R www-data:www-data /var/www/html/annals/
+chmod -R 755 /var/www/html/annals
+
+nano /etc/nginx/sites-available/k51.com
+server {
+    listen 80;
+    server_name static.k51.com;
+    root /var/www/html;
+
+    location / {
+        autoindex on;                 
+        autoindex_exact_size off;     
+        autoindex_localtime on;       
+    }
+}
+
+
+ln -s /etc/nginx/sites-available/k51.com /etc/nginx/sites-enabled/
+nginx -t
 service nginx restart
 ```
 
+<img width="1059" height="283" alt="image" src="https://github.com/user-attachments/assets/e3ea5ca2-f219-4b58-8cb4-bdbebd04c6aa" />
+
+
+
 ### DINAMIS (Vingilot)
 ```
-apt update && apt install nginx -y
-apt update && apt install php8.4-fpm -y
+apt update && apt install php8.4-fpm nginx -y
 
+echo '<?php echo "ini beranda\n";  ?>' > /var/www/html/index.php
+echo '<?php echo "ini about\n";  ?>' > /var/www/html/about.php
+chown -R www-data:www-data /var/www/html/
+chmod -R 755 /var/www/html/
+
+
+nano /etc/nginx/sites-available/k51.com
+server {
+    listen 80;
+    server_name app.k51.com;
+    root /var/www/html;
+    index index.php index.html;
+
+    location / {
+    try_files $uri $uri.php $uri/ /index.php?$query_string;
+
+    }
+
+    location ~ \.php$ {
+	    include snippets/fastcgi-php.conf;
+	    fastcgi_pass unix:/var/run/php/php8.4-fpm.sock;
+	  }
+
+   location ~ ^/[^/]+$ {
+       if (-f $document_root$uri.php) {
+           rewrite ^(.*)$ $1.php last;
+       }
+   }
+
+    location ~ /\.ht {
+        deny all;
+    }
+}
+
+
+unlink /etc/nginx/sites-enabled/default
+ln -s /etc/nginx/sites-available/k51.com /etc/nginx/sites-enabled/
+nginx -t
+service nginx reload
+service php8.4-fpm restart
+service nginx restart
 ```
 
-### PENGUJIAN DARI KLIEN
+<img width="604" height="158" alt="image" src="https://github.com/user-attachments/assets/26440637-1009-4d5a-a331-2e8bef842cf1" />
+
+
