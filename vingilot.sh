@@ -6,35 +6,44 @@ iface eth0 inet static
     up echo nameserver 192.168.122.1 > /etc/resolv.conf
 
 # NO 10
-# rewrite NO 10 use nginx and php-fpm
-apt update && apt install nginx -y
-apt update && apt install php8.4-fpm -y
+apt update && apt install php8.4-fpm nginx -y
 
-nano /var/www/html/index.php
-# <?php
-# echo "dinamis webserver";
-# ?>
+echo "<?php echo 'ini bedanda';  ?>" > /var/www/html/index.php
+echo "<?php echo 'ini about';  ?>" > /var/www/html/about.php
+chown -R www-data:www-data /var/www/html/
+chmod -R 755 /var/www/html/
 
-nano /var/www/html/about.php
-# <?php
-# echo "about page";
-# ?>
 
-# konfigurasi nginx agar tidak pakai .php di url
-nano /etc/nginx/sites-available/default
+nano /etc/nginx/sites-available/k51.com
 # server {
-#       listen 80 default_server;
-#
-#       root /var/www/html;
-#       index index.php;
-#       server_name app.k10.com;
-#       rewrite ^/about$ /about.php last;
-#       location / {
-#               try_files $uri $uri/ /index.php?$query_string;
-#       }
-#       location ~ \.php$ {
-#               include snippets/fastcgi-php.conf;
-#               fastcgi_pass unix:/var/run/php/php8.4-fpm.sock;
-#       }
-# } 
+#     listen 80;
+#     server_name app.k51.com;
+#     root /var/www/html;
+#     index index.php index.html;
+
+#     location / {
+#     try_files $uri $uri.php $uri/ /index.php?$query_string;
+
+#     }
+
+#     location ~ \.php$ {
+# 	    include snippets/fastcgi-php.conf;
+# 	    fastcgi_pass unix:/var/run/php/php8.4-fpm.sock;
+# 	  }
+
+#    location ~ ^/[^/]+$ {
+#        if (-f $document_root$uri.php) {
+#            rewrite ^(.*)$ $1.php last;
+#        }
+#    }
+
+#     location ~ /\.ht {
+#         deny all;
+#     }
+# }
+
+ln -s /etc/nginx/sites-available/k51.com /etc/nginx/sites-enabled/
+nginx -t
+service nginx reload
+service php8.4-fpm restart
 service nginx restart

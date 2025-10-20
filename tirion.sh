@@ -20,13 +20,6 @@ nano /etc/bind/named.conf.local
 #     file "/etc/bind/k51.com";
 # };
 
-# zone "3.89.10.in-addr.arpa" {
-# 	type master;
-#     notify yes;
-#     also-notify { 10.89.3.3; };
-#     allow-transfer { 10.89.3.3; };
-# 	file "/etc/bind/3.89.10.in-addr.arpa";
-# };
 
 nano /etc/bind/k51.com
 # $TTL    604800          ; Waktu cache default (detik)
@@ -79,6 +72,15 @@ nano /etc/bind/k51.com
 # app   IN      CNAME   vingilot.k51.com.
 
 # NO 8
+nano /etc/bind/named.conf.local
+# zone "3.89.10.in-addr.arpa" {
+# 	type master;
+#     notify yes;
+#     also-notify { 10.89.3.3; };
+#     allow-transfer { 10.89.3.3; };
+#     file "/etc/bind/3.89.10.in-addr.arpa";
+# };
+
 nano /etc/bind/3.89.10.in-addr.arpa
 # $TTL    604800          ; Waktu cache default (detik)
 # @       IN      SOA     k51.com. root.k51.com. (

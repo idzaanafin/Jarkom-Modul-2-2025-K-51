@@ -16,15 +16,15 @@ nano /etc/bind/named.conf.local
 #     file "/etc/bind/k51.com";
 # };
 
-
-ln -s /etc/init.d/named /etc/init.d/bind9
-service bind9 restart
-
 # NO 8
 nano /etc/bind/named.conf.local
 # zone "3.89.10.in-addr.arpa" {
 # 	type slave;
 # 	file "/etc/bind/3.89.10.in-addr.arpa";
 # };
+
+ln -s /etc/init.d/named /etc/init.d/bind9
+service bind9 restart
+
 
 
