@@ -217,6 +217,8 @@ service bind9 restart
 
 ### KONFIGURASI DNS SLAVE (Valmar)
 ```
+apt update && apt install bind9 -y
+
 nano /etc/bind/named.conf.local
 zone "k51.com" {
     type slave;
@@ -238,9 +240,37 @@ service bind9 restart
 ``` 
 nano /etc/resolve.conf
 nameserver 10.89.3.2
-nameserver 10.89.3.1
+nameserver 10.89.3.3
 nameserver 192.168.122.1
 ```
+
+- Pengujian ping domain
+  
+	<img width="838" height="289" alt="image" src="https://github.com/user-attachments/assets/c7f7c48e-3ec3-4c6e-b424-8e3242a7f6a6" />
+	
+- Pengujian slave (master di stop)
+  
+  	<img width="935" height="225" alt="image" src="https://github.com/user-attachments/assets/27910cde-f92e-410f-af70-3100f8442d0e" />
+	<img width="814" height="199" alt="image" src="https://github.com/user-attachments/assets/61ee1e9e-5611-440f-bfcb-644cd134a40b" />
+	
+- Pengujian ping subdomain
+  
+	<img width="739" height="171" alt="image" src="https://github.com/user-attachments/assets/983bcca2-aa28-420a-8ebb-3f4e48709063" />
+	
+- Pengujian SOA
+  
+	<img width="1058" height="499" alt="image" src="https://github.com/user-attachments/assets/7e26e7be-3255-4c8d-91eb-a6485e74e751" />
+	<img width="1053" height="520" alt="image" src="https://github.com/user-attachments/assets/5a24ff26-6828-469a-ac8c-7e2ab91aa2b1" />
+	
+- Pengujian Alias
+  
+  	<img width="1063" height="509" alt="image" src="https://github.com/user-attachments/assets/f5d33569-d5b9-4dd7-bb2b-66ef7a4b3ab4" />
+	
+- Pengujian Reverse DNS
+
+  	<img width="663" height="231" alt="image" src="https://github.com/user-attachments/assets/f42d1b37-32ff-400c-a1bf-727b52f63f46" />
+
+
 ## KONFIGURASI WEBSERVER
 ### STATIS (Lindon)
 ```
