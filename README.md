@@ -440,7 +440,7 @@ server {
 `curl http://www.k51.com/static/`
 
 12. Kita coba jalankan app di vingilot
-`curl http://www.k51.com/app/ *run di vingilot`
+`curl http://www.k51.com/app/`
 
 
 
