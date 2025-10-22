@@ -364,19 +364,28 @@ service nginx restart
 
 ### NO 11
 
-1. apt-get update
+1. Pertama kita lakukan update menggunakan
+`apt-get update`
 
-2. apt-get install nginx -y
+2. Kemudian kita install nginx nya menggunakan 
+`apt-get install nginx -y`
 
-3. service nginx start
+3. Setelah kita install, kita nyalakan nginx nya
+`service nginx start`
 
-4. service nginx status
+4. Untuk mengecek apakah nginx nya sudah nyala atau belum kita gunakan
+`service nginx status`
 
-5. rm /etc/nginx/sites-available/default
+5. Hapus default sites available bawaan nginx nya
+`rm /etc/nginx/sites-available/default`
 
-6. rm /etc/nginx/sites-enabled/default
+6. Hapus juga default bawaan pada sites-enabled nya
+`rm /etc/nginx/sites-enabled/default`
 
-7. nano /etc/nginx/sites-available/reverse_proxy
+7. buat file reverse-proxy pada sites-available
+`nano /etc/nginx/sites-available/reverse_proxy`
+
+dengan isi
 
 ```bash 
 # Reverse Proxy
@@ -418,15 +427,20 @@ server {
 ```
 
 
-8. ln -s /etc/nginx/sites-available/reverse_proxy /etc/nginx/sites-enabled
+8. Kemudian kita buat juga di sites-enabled nya
+`ln -s /etc/nginx/sites-available/reverse_proxy /etc/nginx/sites-enabled`
 
-9. nginx -t
+9. Cek kembali nginx nya
+`nginx -t`
+ 
+10. Kita restart nginx nya
+`service nginx restart`
 
-10. service nginx restart
+11. kita coba jalankan static di lindon
+`curl http://www.k51.com/static/`
 
-11. curl http://www.k51.com/static/ *run di lindon
-
-12. curl http://www.k51.com/app/ *run di vingilot
+12. Kita coba jalankan app di vingilot
+`curl http://www.k51.com/app/ *run di vingilot`
 
 
 
